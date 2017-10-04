@@ -6,3 +6,5 @@ default: $(OBJS)
 test: 
 	./lab1
 
+clean: 
+	rm -f lab1 *.o
