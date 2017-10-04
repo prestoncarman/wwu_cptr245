@@ -1,8 +1,8 @@
-all: lab1
+OBJS = lab1.o
 
-%: %.cc
-	g++ -std=c++11 $< -o $@
+default: 
+	g++ -std=c++11 -o lab1 $(OBJS)
 
-%: %.c
-	gcc $< -o $@
+test: 
+	./lab1
 
