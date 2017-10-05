@@ -8,6 +8,7 @@ First, define the test criteria.
 Then implement the test cases for the program.
 Finally complete the programming assignment.
 
+
 ## Resources
 
  * [Catch](https://github.com/philsquared/Catch) C++ Test Framework 
@@ -18,10 +19,11 @@ Finally complete the programming assignment.
 
 ## Setup
 
-Fork the Lab 1 repo on github.
-The github allows you to connect your repo to Travis CI.
+Fork the [Lab 1](https://github.com/prestoncarman/wwu_cptr245_lab1) repo on github.
+[Github](https://github.com) allows you to connect your repo to [Travis CI](https://travis-ci.org).
 Under your repo settings, select _Integrations & services_ and then search for Travis CI as a service.
-Adding the service will require you to create a Travis CI account.
+The process of adding the service will require you to create a Travis CI account.
+
 
 ## Coding Assignment
 
