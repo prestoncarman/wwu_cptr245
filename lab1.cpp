@@ -35,7 +35,13 @@ double squareRoot(double value);
 
 // Calculate what day of the week corresponds to the date.
 // Absolute C++ Ch3 PP12
-string dayOfTheWeek(int month, int day, int year);
+string dayOfTheWeek(int month, int day, int year) {
+    static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    yy -= mm < 3;
+    dayOfWeek = (yy + yy/4 - yy/100 + yy/400 + t[mm-1] + dd) % 7;
+    static string days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    return days[dayOfWeek];
+}
 
 
 // Find the student's Frist and Last Name and calculate the CS username
@@ -55,3 +61,12 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
     REQUIRE( factorial(10) == 3628800 );
 }
 
+TEST_CASE( "Day of Week is computed", "[dayOfTheWeek]") {
+    REQUIRE( dayOfTheWeek(10, 15, 2017) == "Sunday" );
+    REQUIRE( dayOfTheWeek(12, 3, 456) == "Monday" );
+    REQUIRE( dayOfTheWeek(07, 23, 1073) == "Tuesday" );
+    REQUIRE( dayOfTheWeek(08, 25, 2990) == "Wednesday" );
+    REQUIRE( dayOfTheWeek(02, 24, 1920) == "Thursday" );
+    REQUIRE( dayOfTheWeek(11, 02, 0843) == "Friday" );
+    REQUIRE( dayOfTheWeek(04, 16, 0001) == "Saturday" );
+}
