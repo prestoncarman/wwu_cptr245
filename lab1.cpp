@@ -36,9 +36,9 @@ double squareRoot(double value);
 // Calculate what day of the week corresponds to the date.
 // Absolute C++ Ch3 PP12
 string dayOfTheWeek(int month, int day, int year) {
-    static int t[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
-    yy -= mm < 3;
-    dayOfWeek = (yy + yy/4 - yy/100 + yy/400 + t[mm-1] + dd) % 7;
+    static int f[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    year -= month < 3;
+    dayOfWeek = (year + year/4 - year/100 + year/400 + f[month-1] + day) % 7;
     static string days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     return days[dayOfWeek];
 }
