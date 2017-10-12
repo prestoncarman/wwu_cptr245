@@ -37,7 +37,13 @@ double squareRoot(double value);
 
 // Calculate what day of the week corresponds to the date.
 // Absolute C++ Ch3 PP12
-string dayOfTheWeek(int month, int day, int year);
+string dayOfTheWeek(int month, int day, int year) {
+    static int f[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4};
+    year -= month < 3;
+    int dayOfWeek = (year + year/4 - year/100 + year/400 + f[month-1] + day) % 7;
+    static string days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    return days[dayOfWeek];
+}
 
 
 // Find the student's Frist and Last Name and calculate the CS username
@@ -57,9 +63,19 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
     REQUIRE( factorial(10) == 3628800 );
 }
 
+
 TEST_CASE("GCD is computed", "[gcd]") {
     REQUIRE( gcd(3, 6) == 3);
     REQUIRE( gcd(12, 12) == 12 );
     REQUIRE( gcd(41, 400) == 1);
     REQUIRE( gcd(48, 96) == 24);
+    
+TEST_CASE( "Day of Week is computed", "[dayOfTheWeek]") {
+    REQUIRE( dayOfTheWeek(10, 15, 2017) == "Sunday" );
+    REQUIRE( dayOfTheWeek(12, 4, 456) == "Monday" );
+    REQUIRE( dayOfTheWeek(7, 22, 1073) == "Tuesday" );
+    REQUIRE( dayOfTheWeek(8, 25, 2990) == "Wednesday" );
+    REQUIRE( dayOfTheWeek(2, 12, 1920) == "Thursday" );
+    REQUIRE( dayOfTheWeek(11, 6, 843) == "Friday" );
+    REQUIRE( dayOfTheWeek(4, 14, 1) == "Saturday" );
 }
