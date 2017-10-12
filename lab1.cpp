@@ -65,10 +65,11 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
 
 
 TEST_CASE("GCD is computed", "[gcd]") {
-    REQUIRE( gcd(3, 6) == 3);
-    REQUIRE( gcd(12, 12) == 12 );
-    REQUIRE( gcd(41, 400) == 1);
-    REQUIRE( gcd(48, 96) == 24);
+    REQUIRE(gcd(3, 6) == 3);
+    REQUIRE(gcd(12, 12) == 12);
+    REQUIRE(gcd(41, 400) == 1);
+    REQUIRE(gcd(48, 120) == 24);
+}
     
 TEST_CASE( "Day of Week is computed", "[dayOfTheWeek]") {
     REQUIRE( dayOfTheWeek(10, 15, 2017) == "Sunday" );
