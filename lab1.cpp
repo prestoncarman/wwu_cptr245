@@ -61,5 +61,5 @@ TEST_CASE("GCD is computed", "[gcd]") {
     REQUIRE( gcd(3, 6) == 3);
     REQUIRE( gcd(12, 12) == 12 );
     REQUIRE( gcd(41, 400) == 1);
-    REQUIRE( gcd(24, 98) == 4);
+    REQUIRE( gcd(24, 96) == 4);
 }
