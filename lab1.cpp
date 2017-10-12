@@ -63,10 +63,10 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
 
 TEST_CASE( "Day of Week is computed", "[dayOfTheWeek]") {
     REQUIRE( dayOfTheWeek(10, 15, 2017) == "Sunday" );
-    REQUIRE( dayOfTheWeek(12, 3, 456) == "Monday" );
-    REQUIRE( dayOfTheWeek(7, 23, 1073) == "Tuesday" );
+    REQUIRE( dayOfTheWeek(12, 4, 456) == "Monday" );
+    REQUIRE( dayOfTheWeek(7, 22, 1073) == "Tuesday" );
     REQUIRE( dayOfTheWeek(8, 25, 2990) == "Wednesday" );
-    REQUIRE( dayOfTheWeek(2, 24, 1920) == "Thursday" );
-    REQUIRE( dayOfTheWeek(11, 2, 843) == "Friday" );
-    REQUIRE( dayOfTheWeek(4, 16, 1) == "Saturday" );
+    REQUIRE( dayOfTheWeek(2, 12, 1920) == "Thursday" );
+    REQUIRE( dayOfTheWeek(11, 6, 843) == "Friday" );
+    REQUIRE( dayOfTheWeek(4, 14, 1) == "Saturday" );
 }
