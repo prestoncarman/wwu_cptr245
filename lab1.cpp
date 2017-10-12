@@ -25,7 +25,9 @@ double quadratic(int a, int b, int c);
 
 
 // Greatest Common Divisor (GCD).
-double gcd(int number1, int number2);
+double gcd(int number1, int number2) {
+    return number2 == 0 ? number1 : gcd(b, a % b);
+}
 
 
 // Babylonian Algorithm for square root.
@@ -55,3 +57,9 @@ TEST_CASE( "Factorials are computed", "[factorial]" ) {
     REQUIRE( factorial(10) == 3628800 );
 }
 
+TEST_CASE("GCD is computed", "[gcd]") {
+    REQUIRE( gcd(3, 6) == 3);
+    REQUIRE( gcd(12, 12) == 12 );
+    REQUIRE( gcd(41, 400) == 1);
+    REQUIRE( gcd(24, 98) == 4);
+}
