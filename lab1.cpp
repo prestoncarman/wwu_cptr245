@@ -26,7 +26,7 @@ double quadratic(int a, int b, int c);
 
 // Greatest Common Divisor (GCD).
 double gcd(int number1, int number2) {
-    return number2 == 0 ? number1 : gcd(b, a % b);
+    return number2 == 0 ? number1 : gcd(number2, number1 % number2);
 }
 
 
