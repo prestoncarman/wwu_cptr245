@@ -12,6 +12,7 @@
 #include "catch.hpp"
 
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -67,27 +68,36 @@ void parseStudentName(const string studentName, string& firstName, string& lastN
     }
 
     // exceptions
-    if (spaceCount == 0) throw "Missing name/s";
     if (lastName.length() == 0 || firstName.length() == 0) throw "Missing name/s";
-    if (lastName.length() < LAST_LENGTH && firstName.length() < FIRST_LENGTH) throw "Both names are too short";
 
-    // adjusted letter counts for CS username
-    unsigned long userLastCount = LAST_LENGTH;
-    unsigned long userFirstCount = FIRST_LENGTH;
+    // adjusted letter counts for username
+    unsigned long userLastCount = min(lastName.length(), LAST_LENGTH);
+    unsigned long userFirstCount = min(firstName.length(), FIRST_LENGTH);
 
-    // recalculate CS name lengths
-    if (lastName.length() < LAST_LENGTH) {
-        userLastCount = lastName.length(); // add all characters from last name
-        userFirstCount += (LAST_LENGTH - lastName.length()); // add more characters from first name
+    // add more characters from first name
+    if(userLastCount < LAST_LENGTH && userFirstCount >= FIRST_LENGTH) {
+        userFirstCount += LAST_LENGTH - userLastCount;
     }
-    else if (firstName.length() < FIRST_LENGTH) {
-        userFirstCount = firstName.length(); // add all characters from first name
-        userLastCount += (FIRST_LENGTH - firstName.length()); // add more characters from last name
+    // add more characters from last name
+    else if(userFirstCount < FIRST_LENGTH && userLastCount >= LAST_LENGTH) {
+        userLastCount += FIRST_LENGTH - userFirstCount;
     }
 
-    // create CS username
-    for (int c = 0; c < userLastCount; c++) username.push_back(char(tolower(lastName[c]))); // add to lastName
-    for (int c = 0; c < userFirstCount; c++) username.push_back(char(tolower(firstName[c]))); // add to FirstName
+    // add last name characters to username
+    for(int c = 0; c < userLastCount; c++) {
+        username.push_back(char(tolower(lastName[c])));
+    }
+    // add first name characters to username
+    for(int c = 0; c < userFirstCount; c++) {
+        username.push_back(char(tolower(firstName[c])));
+    }
+
+    // fill all remaining spots with '_'
+    double usrLngth = username.length();
+    for(int c = 0; c < LAST_LENGTH + FIRST_LENGTH - usrLngth; c++) {
+        username.push_back('_');
+    }
+
 }
 
 
@@ -110,66 +120,54 @@ TEST_CASE("Student names are parsed", "[parseStudentName]") {
     const unsigned long LAST_LENGTH = 4;
     const unsigned long FIRST_LENGTH = 2;
 
-    SECTION("Last name >= 4 && First name >= 2") {
-        // parse student name
-        parseStudentName("Sheldon Woodward", firstName, lastName, userName);
+    SECTION("Name length testing") {
+        SECTION("Last name >= 4 && First name >= 2") {
+            // parse student name
+            parseStudentName("Sheldon Woodward", firstName, lastName, userName);
 
-        // requirements
-        REQUIRE(lastName.length() >= LAST_LENGTH);
-        REQUIRE(firstName.length() >= FIRST_LENGTH);
-        REQUIRE(lastName == "Woodward");
-        REQUIRE(firstName == "Sheldon");
-        REQUIRE(userName == "woodsh");
-    }
-    SECTION("Last name < 4 && First name >= 2") {
-        // parse student name
-        parseStudentName("Sheldon Yip", firstName, lastName, userName);
+            // requirements
+            REQUIRE(lastName == "Woodward");
+            REQUIRE(firstName == "Sheldon");
+            REQUIRE(userName == "woodsh");
+        }
+        SECTION("Last name >= 4 && First name < 2") {
+            // parse student name
+            parseStudentName("U Woodward", firstName, lastName, userName);
 
-        // requirements
-        REQUIRE(lastName.length() < LAST_LENGTH);
-        REQUIRE(firstName.length() >= FIRST_LENGTH);
-        REQUIRE(lastName == "Yip");
-        REQUIRE(firstName == "Sheldon");
-        REQUIRE(userName == "yipshe");
-    }
-    SECTION("Last name >= 4 && First name < 2") {
-        // parse student name
-        parseStudentName("U Woodward", firstName, lastName, userName);
+            // requirements
+            REQUIRE(lastName == "Woodward");
+            REQUIRE(firstName == "U");
+            REQUIRE(userName == "woodwu");
+        }
+        SECTION("Last name < 4 && First name >= 2") {
+            // parse student name
+            parseStudentName("Sheldon Yip", firstName, lastName, userName);
 
-        // requirements
-        REQUIRE(lastName.length() >= LAST_LENGTH);
-        REQUIRE(firstName.length() < FIRST_LENGTH);
-        REQUIRE(lastName == "Woodward");
-        REQUIRE(firstName == "U");
-        REQUIRE(userName == "woodwu");
-    }
-    SECTION("Last name < 4 && First name < 2") {
-        // requirements
-        REQUIRE_THROWS_WITH(parseStudentName("U Yip", firstName, lastName, userName), "Both names are too short");
-        REQUIRE(lastName.length() < LAST_LENGTH);
-        REQUIRE(firstName.length() < FIRST_LENGTH);
+            // requirements
+            REQUIRE(lastName == "Yip");
+            REQUIRE(firstName == "Sheldon");
+            REQUIRE(userName == "yipshe");
+        }
+        SECTION("Last name < 4 && First name < 2") {
+            // parse student name
+            parseStudentName("U Yip", firstName, lastName, userName);
+
+            // requirements
+            REQUIRE(lastName == "Yip");
+            REQUIRE(firstName == "U");
+            REQUIRE(userName == "yipu__");
+        }
     }
     SECTION("Too many names") {
         // requirements
         REQUIRE_THROWS_WITH(parseStudentName("Sheldon Kent Woodward", firstName, lastName, userName), "Too many names");
     }
     SECTION("Missing name/s") {
-        SECTION("Empty name string") {
-            // requirements
-            REQUIRE_THROWS_WITH(parseStudentName("", firstName, lastName, userName), "Missing name/s");
-        }
-        SECTION("No names in string") {
-            // requirements
-            REQUIRE_THROWS_WITH(parseStudentName(" ", firstName, lastName, userName), "Missing name/s");
-        }
-        SECTION("No last name in string") {
-            // requirements
-            REQUIRE_THROWS_WITH(parseStudentName("Sheldon ", firstName, lastName, userName), "Missing name/s");
-        }
-        SECTION("No first name in string") {
-            // requirements
-            REQUIRE_THROWS_WITH(parseStudentName(" Woodward", firstName, lastName, userName), "Missing name/s");
-        }
+        // requirements
+        REQUIRE_THROWS_WITH(parseStudentName("", firstName, lastName, userName), "Missing name/s");
+        REQUIRE_THROWS_WITH(parseStudentName(" ", firstName, lastName, userName), "Missing name/s");
+        REQUIRE_THROWS_WITH(parseStudentName("Sheldon ", firstName, lastName, userName), "Missing name/s");
+        REQUIRE_THROWS_WITH(parseStudentName(" Woodward", firstName, lastName, userName), "Missing name/s");
     }
     SECTION("Pass by reference values not empty strings") {
         // assign values
