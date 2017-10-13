@@ -97,7 +97,6 @@ void parseStudentName(const string studentName, string& firstName, string& lastN
     for(int c = 0; c < LAST_LENGTH + FIRST_LENGTH - usrLngth; c++) {
         username.push_back('_');
     }
-
 }
 
 
@@ -115,10 +114,6 @@ TEST_CASE("Student names are parsed", "[parseStudentName]") {
     string lastName;
     string firstName;
     string userName;
-
-    // minimum length requirements
-    const unsigned long LAST_LENGTH = 4;
-    const unsigned long FIRST_LENGTH = 2;
 
     SECTION("Name length testing") {
         SECTION("Last name >= 4 && First name >= 2") {
