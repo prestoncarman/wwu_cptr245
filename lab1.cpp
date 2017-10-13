@@ -25,7 +25,9 @@ double quadratic(int a, int b, int c);
 
 
 // Greatest Common Divisor (GCD).
-double gcd(int number1, int number2);
+double gcd(int number1, int number2) {
+    return number2 == 0 ? number1 : gcd(number2, number1 % number2);
+}
 
 
 // Babylonian Algorithm for square root.
@@ -50,7 +52,13 @@ double squareRoot(double value) {
 
 // Calculate what day of the week corresponds to the date.
 // Absolute C++ Ch3 PP12
-string dayOfTheWeek(int month, int day, int year);
+string dayOfTheWeek(int month, int day, int year) {
+    static int const_factor[] = {0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4}; //factors needed for conversion
+    year -= month < 3;
+    int dayOfWeek = (year + year/4 - year/100 + year/400 + const_factor[month-1] + day) % 7; //returns number from 0-6
+    static string days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    return days[dayOfWeek];
+}
 
 
 // Find the student's Frist and Last Name and calculate the CS username
@@ -96,4 +104,21 @@ TEST_CASE("Square roots are computed", "[squareRoot]") {
         // requirements
         REQUIRE(squareRoot(0.0) == 0.0);
     }
+}
+
+TEST_CASE("GCD is computed", "[gcd]") {
+    REQUIRE(gcd(3, 6) == 3);
+    REQUIRE(gcd(12, 12) == 12);
+    REQUIRE(gcd(41, 400) == 1);
+    REQUIRE(gcd(48, 120) == 24);
+}
+    
+TEST_CASE( "Day of Week is computed", "[dayOfTheWeek]") {
+    REQUIRE( dayOfTheWeek(10, 15, 2017) == "Sunday" );
+    REQUIRE( dayOfTheWeek(12, 4, 456) == "Monday" );
+    REQUIRE( dayOfTheWeek(7, 22, 1073) == "Tuesday" );
+    REQUIRE( dayOfTheWeek(8, 25, 2990) == "Wednesday" );
+    REQUIRE( dayOfTheWeek(2, 12, 1920) == "Thursday" );
+    REQUIRE( dayOfTheWeek(11, 6, 843) == "Friday" );
+    REQUIRE( dayOfTheWeek(4, 14, 1) == "Saturday" );
 }
