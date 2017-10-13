@@ -65,57 +65,42 @@ double squareRoot(double value);
     
 }
 
-// GCD TESTS
-TEST_CASE("GCD is computed", "[gcd]") {
-    REQUIRE(gcd(0, 0) == 0);
-    REQUIRE(gcd(0, -1) == 1);
-    REQUIRE(gcd(-5, -8) == 1);
-    REQUIRE(gcd(-5, -15) == 5);
-    REQUIRE(gcd(-12, -14) == 2);
-    REQUIRE(gcd(3, 6) == 3);
-    REQUIRE(gcd(12, 12) == 12);
-    REQUIRE(gcd(41, 400) == 1);
-    REQUIRE(gcd(48, 120) == 24);
-    REQUIRE(gcd(-5, 5) == 5);
+// Tests...
+TEST_CASE( "Factorials are computed", "[factorial]" ) {
+    REQUIRE( factorial(1) == 1 );
+    REQUIRE( factorial(2) == 2 );
+    REQUIRE( factorial(3) == 6 );
+    REQUIRE( factorial(10) == 3628800 );
 }
 
-// DAY OF THE WEEK TESTS
-TEST_CASE( "Day of Week is computed", "[dayOfTheWeek]") {
-    REQUIRE( dayOfTheWeek(10, 15, 2017) == "Sunday" );
-    REQUIRE( dayOfTheWeek(12, 4, 456) == "Monday" );
-    REQUIRE( dayOfTheWeek(7, 22, 1073) == "Tuesday" );
-    REQUIRE( dayOfTheWeek(8, 25, 2990) == "Wednesday" );
-    REQUIRE( dayOfTheWeek(2, 12, 1920) == "Thursday" );
-    REQUIRE( dayOfTheWeek(11, 6, 843) == "Friday" );
-    REQUIRE( dayOfTheWeek(4, 14, 1) == "Saturday" );
+TEST_CASE( "Should compute quadratic", "[quadratic]" ) {
+  REQUIRE( quadratic(2, 4, 2) == -1.0);
 }
 
+TEST_CASE( "When a is zero should throw floating point exception", "[quadratic]") {
+  REQUIRE_THROWS_AS( quadratic(0, 20, -10), Float_exception e);
+}
 
-// SQUARE ROOT TESTS
-TEST_CASE("Square roots are computed", "[squareRoot]") {
-    SECTION("Passed perfect square") {
-        // requirements
-        REQUIRE(squareRoot(4.0) == sqrt(4.0));
-        REQUIRE(squareRoot(100.0) == sqrt(100.0));
-        REQUIRE(squareRoot(11.56) == trunc(sqrt(11.56)*pow(10,15))/pow(10,15));
-        REQUIRE(squareRoot(133.6336) == trunc(sqrt(133.6336)*pow(10,15))/pow(10,15));
-    }
-    SECTION("Passed imperfect square") {
-        const double PREC = 15; // number of decimal places to require accuracy of. default: 15
+TEST_CASE( "If a, b, and c are specific values that create imaginary number throw imaginary_exception", "[quadratic]") {
+  REQUIRE_THROWS_AS( quadratic(-1, -1, -1), Imaginary_exception e);
+}
 
-        // requirements
-        double truncPrec = pow(10, -PREC);
+TEST_CASE( "If a or b is 0 return 0", "[gcd]") {
+  REQUIRE( gcd(0, 20) == 0);
+}
 
-        REQUIRE(abs(squareRoot(2.0) - sqrt(2.0)) < truncPrec);
-        REQUIRE(abs(squareRoot(27.0) - sqrt(27.0)) < truncPrec);
-        REQUIRE(abs(squareRoot(7925.0) - sqrt(7925)) < truncPrec);
-    }
-    SECTION("Passed negative value") {
-        //requirements
-        REQUIRE_THROWS_WITH(squareRoot(-1.0), "Passed bad value");
-    }
-    SECTION("Passed zero") {
-        // requirements
-        REQUIRE(squareRoot(0.0) == 0.0);
-    }
+TEST_CASE( "It should compute the greatest common deviser", "[gcd]") {
+  REQUIRE( gcd(10, 25) == 5);
+}
+
+TEST_CASE( "Should throw imaginary exception when given a negative number", "[squareRoot]") {
+  REQUIRE_THROWS_AS( squareRoot(-4.00), Imaginary_exception e);
+}
+
+TEST_CASE( "Should return zero if given zero", "[squareRoot]") {
+  REQUIRE( squareRoot(0.00) == 0.00);
+}
+
+TEST_CASE( "Should calculate square root of a positive double", "[squareRoot]") {
+  REQUIRE( squareRoot(5) == Approx(2.2361));
 }
